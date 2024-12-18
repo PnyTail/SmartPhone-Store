@@ -49,8 +49,13 @@ class DB_driver
             $field_list .= "$key,"; // Add comma after each element
             $value_list .= "'" . mysqli_real_escape_string($this->__conn, $value) . "',"; // Add comma after each element
         }
-        
-        $sql = 'INSERT INTO ' . $table . ' (' . rtrim($field_list, ',') . ') VALUES (' . rtrim($value_list, ',') . ')';
+
+        // Remove the trailing commas
+        $field_list = rtrim($field_list, ',');
+        $value_list = rtrim($value_list, ',');
+
+        // Construct the SQL query
+        $sql = "INSERT INTO $table ($field_list) VALUES ($value_list)";
 
         return mysqli_query($this->__conn, $sql);
     }
