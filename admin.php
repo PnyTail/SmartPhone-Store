@@ -269,7 +269,6 @@
         <div class="donhang">
             <table class="table-header">
                 <tr>
-                    <!-- Theo độ rộng của table content -->
                     <th title="Sắp xếp" style="width: 5%" onclick="sortDonHangTable('stt')">Stt <i class="fa fa-sort"></i></th>
                     <th title="Sắp xếp" style="width: 13%" onclick="sortDonHangTable('madon')">Mã đơn <i class="fa fa-sort"></i></th>
                     <th title="Sắp xếp" style="width: 7%" onclick="sortDonHangTable('khach')">Khách <i class="fa fa-sort"></i></th>
@@ -291,17 +290,8 @@
 
                     <button onclick="locDonHangTheoKhoangNgay()"><i class="fa fa-search"></i> Tìm</button>
                 </div>
-
-                <select name="kieuTimDonHang">
-                    <option value="ma">Tìm theo mã đơn</option>
-                    <option value="khachhang">Tìm theo tên khách hàng</option>
-                    <option value="trangThai">Tìm theo trạng thái</option>
-                </select>
-                <input type="text" placeholder="Tìm kiếm..." onkeyup="timKiemDonHang(this)">
             </div>
-
-        </div> <!-- // don hang -->
-
+        </div>
 
         <!-- Khách hàng -->
         <div class="khachhang">
