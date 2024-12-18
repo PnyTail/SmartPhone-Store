@@ -976,11 +976,11 @@ function addTableKhachHang(data) {
         console.log(u.TrangThai)
 
         s += `<tr>
-            <td >` + (i + 1) + `</td>
-            <td >` + u.Ho + ' ' + u.Ten + `</td>
-            <td >` + u.Email + `</td>
-            <td >` + u.TaiKhoan + `</td>           
-            <td >
+            <td style="width: 5%">` + (i + 1) + `</td>
+            <td style="width: 20%">` + u.Ho + ' ' + u.Ten + `</td>
+            <td style="width: 25%">` + u.Email + `</td>
+            <td style="width: 20%">` + u.TaiKhoan + `</td>           
+            <td style="width: 10%">
                 <div class="tooltip">
                     <label class="switch">
                         <input type="checkbox" `+(u.TrangThai==1?"checked":"")+` onclick="thayDoiTrangThaiND(this, '`+u.MaND+`')">
