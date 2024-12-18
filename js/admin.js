@@ -747,7 +747,7 @@ function addTableDonHang(data) {
         s += `<tr>
             <td style="width: 5%">` + (i + 1) + `</td>
             <td style="width: 13%">` + d.MaHD + `</td>
-            <td style="width: 7%">` + d.MaND + `</td>
+            <td style="width: 7%">` + d.NguoiNhan + `</td>
             <td style="width: 20%">` + sanphamList + `</td>
             <td style="width: 15%">` + d.TongTien + `</td>
             <td style="width: 10%">` + d.NgayLap + `</td>
