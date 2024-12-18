@@ -720,7 +720,6 @@ function refreshTableDonHang() {
         type: "POST",
         url: "php/xulydonhang.php",
         dataType: "json",
-        // timeout: 1500, // sau 1.5 giây mà không phản hồi thì dừng => hiện lỗi
         data: {
             request: "getall",
         },
@@ -731,7 +730,7 @@ function refreshTableDonHang() {
         error: function(e) {
             Swal.fire({
                 type: "error",
-                title: "Lỗi lấy dữ liệu khách Hàng (admin.js > refreshTableKhachHang)",
+                title: "Lỗi lấy dữ liệu đơn hàng (admin.js > refreshTableDonHang)",
                 html: e.responseText
             });
         }
@@ -741,17 +740,18 @@ function addTableDonHang(data) {
     var tc = document.getElementsByClassName('donhang')[0].getElementsByClassName('table-content')[0];
     var s = `<table class="table-outline hideImg">`;
 
-    TONGTIEN = 0;
     for (var i = 0; i < data.length; i++) {
         var d = data[i];
+        var sanphamList = d.sanpham.map(sp => sp.TenSP + ' [' + sp.SoLuong + ']').join('<br>');
+
         s += `<tr>
             <td style="width: 5%">` + (i + 1) + `</td>
             <td style="width: 13%">` + d.MaHD + `</td>
             <td style="width: 7%">` + d.MaND + `</td>
-            <td style="width: 20%">` + /*d.sp*/ + `</td>
+            <td style="width: 20%">` + sanphamList + `</td>
             <td style="width: 15%">` + d.TongTien + `</td>
             <td style="width: 10%">` + d.NgayLap + `</td>
-            <td style="width: 10%">` + d.TinhTrang + `</td>
+            <td style="width: 10%">` + d.TrangThai + `</td>
             <td style="width: 10%">
                 <div class="tooltip">
                     <i class="fa fa-check" onclick="duyet('` + d.MaHD + `', true)"></i>
@@ -761,10 +761,8 @@ function addTableDonHang(data) {
                     <i class="fa fa-remove" onclick="duyet('` + d.MaHD + `', false)"></i>
                     <span class="tooltiptext">Hủy</span>
                 </div>
-                
             </td>
         </tr>`;
-        TONGTIEN += stringToNum(d.tongtien);
     }
 
     s += `</table>`;
