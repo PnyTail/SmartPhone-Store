@@ -298,10 +298,10 @@
             <table class="table-header">
                 <tr>
                     <!-- Theo độ rộng của table content -->
-                    <th title="Sắp xếp"  onclick="sortKhachHangTable('stt')">Stt <i class="fa fa-sort"></i></th>
-                    <th title="Sắp xếp"  onclick="sortKhachHangTable('hoten')">Họ tên <i class="fa fa-sort"></i></th>
-                    <th title="Sắp xếp"  onclick="sortKhachHangTable('email')">Email <i class="fa fa-sort"></i></th>
-                    <th title="Sắp xếp" onclick="sortKhachHangTable('taikhoan')">Tài khoản <i class="fa fa-sort"></i></th>
+                    <th title="Sắp xếp" style="width: 5%" onclick="sortKhachHangTable('stt')">Stt <i class="fa fa-sort"></i></th>
+                    <th title="Sắp xếp" style="width: 20%" onclick="sortKhachHangTable('hoten')">Họ tên <i class="fa fa-sort"></i></th>
+                    <th title="Sắp xếp" style="width: 25%" onclick="sortKhachHangTable('email')">Email <i class="fa fa-sort"></i></th>
+                    <th title="Sắp xếp" style="width: 20%" onclick="sortKhachHangTable('taikhoan')">Tài khoản <i class="fa fa-sort"></i></th>
                 
                     <th style="width: 10%">Hành động</th>
                 </tr>
