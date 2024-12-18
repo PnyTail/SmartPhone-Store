@@ -368,7 +368,7 @@
 /* ================== Binh luan ==================*/
 .guiBinhLuan {
     box-sizing: border-box;
-    border: 10px solid #252525;
+    border: 2px solid #252525;
 }
 
 #inpBinhLuan {
