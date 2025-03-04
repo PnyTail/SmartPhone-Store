@@ -139,25 +139,25 @@ class ChiTietHoaDonBUS extends DB_business
     function __construct()
     {
         $this->setTable("ChiTietHoaDon", "MaHD");
-        $this->_key2 = "MaSP";
+        $this->key2 = "MaSP";
     }
 
     // Hàm xóa theo id hóa đơn và id sản phẩm
     function delete_by_2id($id, $id2)
     {
-        return $this->remove($this->_table_name, $this->_key . "='" . $id . "' AND " . $this->_key2 . "='" . $id2 . "'");
+        return $this->remove($this->_table_name, $this->_key . "='" . $id . "' AND " . $this->key2 . "='" . $id2 . "'");
     }
 
     // Hàm cập nhật theo id hóa đơn + id sản phẩm
     function update_by_2id($data, $id, $id2)
     {
-        return $this->update($this->_table_name, $data, $this->_key . "='" . $id . "' AND " . $this->_key2 . "='" . $id2 . "'");
+        return $this->update($this->_table_name, $data, $this->_key . "='" . $id . "' AND " . $this->key2 . "='" . $id2 . "'");
     }
 
     // hàm select theo id hóa đơn + id sản phẩm
     function select_by_2id($select, $id, $id2)
     {
-        $sql = "select $select from " . $this->_table_name . " where " . $this->_key . " = '" . $id . "' AND " . $this->_key2 . "='" . $id2 . "'";
+        $sql = "select $select from " . $this->_table_name . " where " . $this->_key . " = '" . $id . "' AND " . $this->key2 . "='" . $id2 . "'";
         return $this->get_row($sql);
     }
 
