@@ -35,7 +35,7 @@ function addHeader()
         <div style="display: none;" class="smallmenu" id="closemenu" onclick="smallmenu(0)">×</div>
         <div class="logo">
             <a href="index.php">
-                <img src="img/logo.jpg" alt="Trang chủ Smartphone Store" title="Trang chủ Smartphone Store">
+                <img src="img/logo.png" alt="Trang chủ Smartphone Store" title="Trang chủ Smartphone Store">
             </a>
         </div> <!-- End Logo -->
 
