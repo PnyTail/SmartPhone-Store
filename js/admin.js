@@ -504,7 +504,15 @@ function xoaSanPham(trangthai, masp, tensp) {
                     maspdelete: masp
                 },
                 success: function(data, status, xhr) {
+                    // SweetAlert notification for delete success
+                    Swal.fire({
+                        type: 'success',
+                        title: 'Xóa thành công',
+                        text: 'Đã xóa sản phẩm ' + tensp
+                    });
                     
+                    // Refresh the product table
+                    refreshTableSanPham();
                 },
                 error: function() {
                     Swal.fire({
