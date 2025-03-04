@@ -12,7 +12,7 @@ window.onload = function() {
         if(user != null) {
             if(user.MaQuyen != 1) {
                 addEventChangeTab();
-                addThongKe();
+                // addThongKe();
                 openTab('Home');
             }
         } else {
@@ -751,6 +751,22 @@ function addTableDonHang(data) {
     for (var i = 0; i < data.length; i++) {
         var d = data[i];
         var sanphamList = d.sanpham.map(sp => sp.TenSP + ' [' + sp.SoLuong + ']').join('<br>');
+        
+        // Convert numeric status to readable text
+        var trangThaiText = "";
+        switch(d.TrangThai) {
+            case "1":
+                trangThaiText = "Chờ duyệt";
+                break;
+            case "Đã duyệt":
+                trangThaiText = "Đã duyệt";
+                break;
+            case "Đã hủy":
+                trangThaiText = "Đã hủy";
+                break;
+            default:
+                trangThaiText = d.TrangThai;
+        }
 
         s += `<tr>
             <td style="width: 5%">` + (i + 1) + `</td>
@@ -759,7 +775,7 @@ function addTableDonHang(data) {
             <td style="width: 20%">` + sanphamList + `</td>
             <td style="width: 15%">` + d.TongTien + `</td>
             <td style="width: 10%">` + d.NgayLap + `</td>
-            <td style="width: 10%">` + d.TrangThai + `</td>
+            <td style="width: 10%">` + trangThaiText + `</td>
             <td style="width: 10%">
                 <div class="tooltip">
                     <i class="fa fa-check" onclick="duyet('` + d.MaHD + `', true)"></i>
