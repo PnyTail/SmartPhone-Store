@@ -815,38 +815,51 @@ function getListDonHang() {
 
 // Duyệt
 function duyet(maDonHang, duyetDon) {
-    var u = getListUser();
-    for (var i = 0; i < u.length; i++) {
-        for (var j = 0; j < u[i].donhang.length; j++) {
-            if (u[i].donhang[j].ngaymua == maDonHang) {
-                if (duyetDon) {
-                    if (u[i].donhang[j].tinhTrang == 'Đang chờ xử lý') {
-                        u[i].donhang[j].tinhTrang = 'Đã giao hàng';
-
-                    } else if (u[i].donhang[j].tinhTrang == 'Đã hủy') {
-                        alert('Không thể duyệt đơn đã hủy !');
-                        return;
-                    }
-                } else {
-                    if (u[i].donhang[j].tinhTrang == 'Đang chờ xử lý') {
-                        if (window.confirm('Bạn có chắc muốn hủy đơn hàng này. Hành động này sẽ không thể khôi phục lại !'))
-                            u[i].donhang[j].tinhTrang = 'Đã hủy';
-
-                    } else if (u[i].donhang[j].tinhTrang == 'Đã giao hàng') {
-                        alert('Không thể hủy đơn hàng đã giao !');
-                        return;
-                    }
+    var trangThai = duyetDon ? 'Đã duyệt' : 'Đã hủy';
+    
+    // Confirmation dialog
+    var confirmMessage = duyetDon 
+        ? 'Xác nhận duyệt đơn hàng?' 
+        : 'Bạn có chắc muốn hủy đơn hàng này? Hành động này sẽ không thể khôi phục lại!';
+    
+    Swal.fire({
+        title: duyetDon ? 'Duyệt đơn hàng' : 'Hủy đơn hàng',
+        text: confirmMessage,
+        type: duyetDon ? 'question' : 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Xác nhận',
+        cancelButtonText: 'Hủy'
+    }).then((result) => {
+        if (result.value) {
+            // Send AJAX request to update order status
+            $.ajax({
+                type: "POST",
+                url: "php/xulydonhang.php",
+                dataType: "json",
+                data: {
+                    request: "duyet",
+                    maDonHang: maDonHang,
+                    trangThai: trangThai
+                },
+                success: function(data, status, xhr) {
+                    Swal.fire({
+                        type: 'success',
+                        title: duyetDon ? 'Đã duyệt đơn hàng' : 'Đã hủy đơn hàng',
+                        text: 'Cập nhật trạng thái thành công'
+                    });
+                    refreshTableDonHang(); // Refresh the table to show updated data
+                },
+                error: function(e) {
+                    Swal.fire({
+                        type: "error",
+                        title: "Lỗi cập nhật trạng thái đơn hàng",
+                        html: e.responseText
+                    });
+                    console.log(e.responseText);
                 }
-                break;
-            }
+            });
         }
-    }
-
-    // lưu lại
-    setListUser(u);
-
-    // vẽ lại
-    addTableDonHang();
+    });
 }
 
 function locDonHangTheoKhoangNgay() {

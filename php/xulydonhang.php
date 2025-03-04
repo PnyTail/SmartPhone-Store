@@ -15,6 +15,14 @@
             die (json_encode($donhang));
             break;
 
+        case 'duyet':
+            $maDonHang = $_POST['maDonHang'];
+            $trangThai = $_POST['trangThai'];
+            $hoadonBUS = new HoaDonBUS();
+            $result = $hoadonBUS->update_by_id(['TrangThai' => $trangThai], $maDonHang);
+            die(json_encode($result));
+            break;
+
         default:
             # code...
             break;
