@@ -229,6 +229,9 @@ header h2 {
     padding: .75rem;
     vertical-align: top;
     border-top: 1px solid #23282c;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .table-footer input,

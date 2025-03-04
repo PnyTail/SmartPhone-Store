@@ -284,6 +284,15 @@
 
         <!-- Đơn Hàng -->
         <div class="donhang">
+
+            <div class="table-footer" style="margin-bottom: 5px;">
+                <div class="timTheoNgay">
+                    Từ ngày: <input type="date" id="fromDate">
+                    Đến ngày: <input type="date" id="toDate">
+                    <button onclick="locDonHangTheoKhoangNgay()"><i class="fa fa-search"></i> Tìm</button>
+                </div>
+            </div>
+
             <table class="table-header">
                 <tr>
                     <th title="Sắp xếp" style="width: 5%" onclick="sortDonHangTable('stt')">Stt <i class="fa fa-sort"></i></th>
@@ -300,14 +309,13 @@
             <div class="table-content">
             </div>
 
-            <div class="table-footer">
+            <!-- <div class="table-footer">
                 <div class="timTheoNgay">
                     Từ ngày: <input type="date" id="fromDate">
                     Đến ngày: <input type="date" id="toDate">
-
                     <button onclick="locDonHangTheoKhoangNgay()"><i class="fa fa-search"></i> Tìm</button>
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <!-- Khách hàng -->
