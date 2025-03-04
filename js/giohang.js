@@ -270,6 +270,12 @@ function xacNhanThanhToan() {
             dulieu: dulieu
         },
         success: function(data) {
+            $("#exampleModal").modal("hide");
+                
+            Swal.fire({
+                type: 'success',
+                title: 'Đặt hàng thành công'
+            });
             capNhatMoiThu([]);
         },
         error: function(e) {
