@@ -72,7 +72,7 @@
 			"DiaChi" => $xuli_diachi,
 			"TaiKhoan" => $xuli_newUser,
 			"MatKhau" => $xuli_newPass,
-			"MaQuyen" => 2,
+			"MaQuyen" => 1,
 			"TrangThai" => 1
 		));
 
