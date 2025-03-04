@@ -285,7 +285,7 @@
         <!-- Đơn Hàng -->
         <div class="donhang">
 
-            <div class="table-footer" style="margin-bottom: 5px;">
+            <div class="table-footer">
                 <div class="timTheoNgay">
                     Từ ngày: <input type="date" id="fromDate">
                     Đến ngày: <input type="date" id="toDate">
@@ -320,6 +320,17 @@
 
         <!-- Khách hàng -->
         <div class="khachhang">
+
+            <div class="table-footer">
+                <select name="kieuTimKhachHang">
+                    <option value="ten">Tìm theo họ tên</option>
+                    <option value="email">Tìm theo email</option>
+                    <option value="taikhoan">Tìm theo tài khoản</option>
+                </select>
+                <input type="text" placeholder="Tìm kiếm..." onkeyup="timKiemNguoiDung(this)">
+                <button onclick="openThemNguoiDung()"><i class="fa fa-plus-square"></i> Thêm người dùng</button>
+            </div>
+
             <table class="table-header">
                 <tr>
                     <!-- Theo độ rộng của table content -->
@@ -335,7 +346,7 @@
             <div class="table-content">
             </div>
 
-            <div class="table-footer">
+            <!-- <div class="table-footer">
                 <select name="kieuTimKhachHang">
                     <option value="ten">Tìm theo họ tên</option>
                     <option value="email">Tìm theo email</option>
@@ -343,7 +354,7 @@
                 </select>
                 <input type="text" placeholder="Tìm kiếm..." onkeyup="timKiemNguoiDung(this)">
                 <button onclick="openThemNguoiDung()"><i class="fa fa-plus-square"></i> Thêm người dùng</button>
-            </div>
+            </div> -->
         </div> <!-- // khach hang -->
 
         <!-- Thống kê -->
