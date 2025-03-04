@@ -44,7 +44,7 @@
             <li class="nav-item" onclick="refreshTableSanPham()"><a class="nav-link"><i class="fa fa-th-large"></i> Sản Phẩm</a></li>
             <li class="nav-item" onclick="refreshTableDonHang()"><a class="nav-link"><i class="fa fa-file-text-o"></i> Đơn Hàng</a></li>
             <li class="nav-item" onclick="refreshTableKhachHang()"><a class="nav-link"><i class="fa fa-address-book-o"></i> Khách Hàng</a></li>
-            <li class="nav-item"><a class="nav-link"><i class="fa fa-bar-chart-o"></i> Thống Kê</a></li>
+            <!-- <li class="nav-item"><a class="nav-link"><i class="fa fa-bar-chart-o"></i> Thống Kê</a></li> -->
             <hr>
             <li class="nav-item">
                 <a class="nav-link" id="btnDangXuat">
@@ -63,6 +63,23 @@
 
         <!-- Sản Phẩm -->
         <div class="sanpham">
+
+            <div class="table-footer">
+                <select name="kieuTimSanPham">
+                    <option value="ten">Tìm theo tên</option>
+                    <option value="ma">Tìm theo mã</option>
+                </select>
+                <input type="text" placeholder="Tìm kiếm..." onkeyup="timKiemSanPham(this)">
+                <button onclick="document.getElementById('khungThemSanPham').style.transform = 'scale(1)'; autoMaSanPham()">
+                    <i class="fa fa-plus-square"></i>
+                    Thêm sản phẩm
+                </button>
+                <button onclick="refreshTableSanPham()">
+                    <i class="fa fa-refresh"></i>
+                    Làm mới
+                </button>
+            </div>
+
             <table class="table-header">
                 <tr>
                     <!-- Theo độ rộng của table content -->
@@ -112,10 +129,10 @@
             ?>
             </div>-->
 
-            <div class="table-footer">
+            <!-- <div class="table-footer">
                 <select name="kieuTimSanPham">
-                    <option value="ma">Tìm theo mã</option>
                     <option value="ten">Tìm theo tên</option>
+                    <option value="ma">Tìm theo mã</option>
                 </select>
                 <input type="text" placeholder="Tìm kiếm..." onkeyup="timKiemSanPham(this)">
                 <button onclick="document.getElementById('khungThemSanPham').style.transform = 'scale(1)'; autoMaSanPham()">
@@ -126,7 +143,7 @@
                     <i class="fa fa-refresh"></i>
                     Làm mới
                 </button>
-            </div>
+            </div> -->
 
             <div id="khungThemSanPham" class="overlay">
                 <span class="close" onclick="this.parentElement.style.transform = 'scale(0)';">&times;</span>
@@ -322,7 +339,7 @@
         </div> <!-- // khach hang -->
 
         <!-- Thống kê -->
-        <div class="thongke">
+        <!-- <div class="thongke">
             <div class="canvasContainer">
                 <canvas id="myChart1"></canvas>
             </div>
@@ -338,8 +355,7 @@
             <div class="canvasContainer">
                 <canvas id="myChart4"></canvas>
             </div>
-
-        </div>
+        </div> -->
     </div> <!-- // main -->
 
 
