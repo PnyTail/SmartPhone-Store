@@ -95,7 +95,16 @@
             $trangthai = $_POST["trangthai"];
             die (json_encode((new SanPhamBUS())->capNhapTrangThai($trangthai, $id)));
             break;
-    	
+
+        // sửa
+    	case 'update':
+            $masp = $_POST['masp'];
+            $dataUpdate = $_POST['dataUpdate'];
+            $sanphamBUS = new SanPhamBUS();
+            $result = $sanphamBUS->update_by_id($dataUpdate, $masp);
+            die(json_encode($result));
+            break;
+
     	default:
     		# code...
     		break;

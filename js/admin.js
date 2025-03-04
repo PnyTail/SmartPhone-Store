@@ -308,28 +308,62 @@ function timKiemSanPham(inp) {
 function layThongTinSanPhamTuTable(id) {
     var khung = document.getElementById(id);
     var tr = khung.getElementsByTagName('tr');
-
-    var masp = tr[1].getElementsByTagName('td')[1].getElementsByTagName('input')[0].value;
-    var name = tr[2].getElementsByTagName('td')[1].getElementsByTagName('input')[0].value;
-    var company = tr[3].getElementsByTagName('td')[1].getElementsByTagName('select')[0].value;
-    var img =  document.getElementById("hinhanh").value;
-    var price = tr[5].getElementsByTagName('td')[1].getElementsByTagName('input')[0].value;
-    var amount = tr[6].getElementsByTagName('td')[1].getElementsByTagName('input')[0].value;
-    var star = tr[7].getElementsByTagName('td')[1].getElementsByTagName('input')[0].value;
-    var rateCount = tr[8].getElementsByTagName('td')[1].getElementsByTagName('input')[0].value;
-    var promoName = tr[9].getElementsByTagName('td')[1].getElementsByTagName('select')[0].value;
-    var promoValue = tr[10].getElementsByTagName('td')[1].getElementsByTagName('input')[0].value;
-
-    var screen = tr[12].getElementsByTagName('td')[1].getElementsByTagName('input')[0].value;
-    var os = tr[13].getElementsByTagName('td')[1].getElementsByTagName('input')[0].value;
-    var camara = tr[14].getElementsByTagName('td')[1].getElementsByTagName('input')[0].value;
-    var camaraFront = tr[15].getElementsByTagName('td')[1].getElementsByTagName('input')[0].value;
-    var cpu = tr[16].getElementsByTagName('td')[1].getElementsByTagName('input')[0].value;
-    var ram = tr[17].getElementsByTagName('td')[1].getElementsByTagName('input')[0].value;
-    var rom = tr[18].getElementsByTagName('td')[1].getElementsByTagName('input')[0].value;
-    var microUSB = tr[19].getElementsByTagName('td')[1].getElementsByTagName('input')[0].value;
-    var battery = tr[20].getElementsByTagName('td')[1].getElementsByTagName('input')[0].value;
-
+    
+    // Create a helper function to safely get input values
+    function safeGetInputValue(row, cellIndex, inputIndex) {
+        try {
+            if (tr[row] && tr[row].getElementsByTagName('td')[cellIndex]) {
+                var inputs = tr[row].getElementsByTagName('td')[cellIndex].getElementsByTagName('input');
+                if (inputs && inputs[inputIndex]) {
+                    return inputs[inputIndex].value;
+                }
+            }
+            return ""; // Return empty string if any element is missing
+        } catch (e) {
+            console.log("Error accessing row " + row + ", cell " + cellIndex + ", input " + inputIndex);
+            return "";
+        }
+    }
+    
+    // Similar function for select elements
+    function safeGetSelectValue(row, cellIndex) {
+        try {
+            if (tr[row] && tr[row].getElementsByTagName('td')[cellIndex]) {
+                var selects = tr[row].getElementsByTagName('td')[cellIndex].getElementsByTagName('select');
+                if (selects && selects[0]) {
+                    return selects[0].value;
+                }
+            }
+            return "1"; // Default value if not found
+        } catch (e) {
+            console.log("Error accessing select at row " + row + ", cell " + cellIndex);
+            return "1";
+        }
+    }
+    
+    // Get values safely
+    var masp = safeGetInputValue(1, 1, 0) || "0";
+    var name = safeGetInputValue(2, 1, 0) || "";
+    var company = safeGetSelectValue(3, 1) || "1";
+    var img = document.getElementById("hinhanh") ? document.getElementById("hinhanh").value : "";
+    var price = safeGetInputValue(5, 1, 0) || "0";
+    var amount = id === 'khungSuaSanPham' ? "10" : safeGetInputValue(6, 1, 0) || "0"; // Default amount when editing
+    var star = safeGetInputValue(7, 1, 0) || "0";
+    var rateCount = safeGetInputValue(8, 1, 0) || "0";
+    var promoName = safeGetSelectValue(9, 1) || "1";
+    var promoValue = safeGetInputValue(10, 1, 0) || "0";
+    
+    // Get detail specs
+    var screen = safeGetInputValue(12, 1, 0) || "";
+    var os = safeGetInputValue(13, 1, 0) || "";
+    var camara = safeGetInputValue(14, 1, 0) || "";
+    var camaraFront = safeGetInputValue(15, 1, 0) || "";
+    var cpu = safeGetInputValue(16, 1, 0) || "";
+    var ram = safeGetInputValue(17, 1, 0) || "";
+    var rom = safeGetInputValue(18, 1, 0) || "";
+    var microUSB = safeGetInputValue(19, 1, 0) || "";
+    var battery = safeGetInputValue(20, 1, 0) || "";
+    
     return {
         "name": name,
         "img": img,
@@ -531,9 +565,93 @@ function xoaSanPham(trangthai, masp, tensp) {
 
 // Sửa
 function suaSanPham(masp) {
-    var Sp = layThongTinSanPhamTuTable('khungSuaSanPham');
-    console.log(Sp);
+    var formData = layThongTinSanPhamTuTable('khungSuaSanPham');
+    
+    // Validation
+    var pattCheckTenSP = /([a-z A-Z0-9&():.'_-]{2,})$/;
+    if (pattCheckTenSP.test(formData.name) == false) {
+        alert("Tên sản phẩm không hợp lệ");
+        return false;
+    }
+    
+    var pattCheckGia = /^([0-9]){1,}(000)$/;
+    if (pattCheckGia.test(formData.price) == false) {
+        alert("Đơn giá sản phẩm không hợp lệ");
+        return false;
+    }
+    
+    // Get the file input element
+    var fileInput = document.querySelector('#khungSuaSanPham input[type="file"]');
+    var file = fileInput.files[0];
+    
+    // If there's a new image, upload it first
+    if (file) {
+        uploadProductImage(file, function(success, filePath) {
+            if (success) {
+                // Update with new image path
+                formData.img = filePath;
+                updateProduct(formData, masp);
+            }
+        });
+    } else {
+        // No new image, just update with existing data
+        updateProduct(formData, masp);
+    }
+    
     return false;
+}
+
+function updateProduct(formData, masp) {
+    // Flatten the object structure for database update
+    var dataUpdate = {
+        "MaSP": masp,
+        "TenSP": formData.name,
+        "MaLSP": formData.company,
+        "DonGia": formData.price,
+        "SoLuong": formData.amount,
+        "HinhAnh": formData.img,
+        "MaKM": formData.promo.name,
+        "SoSao": formData.star,
+        "SoDanhGia": formData.rateCount,
+        "ManHinh": formData.detail.screen,
+        "HDH": formData.detail.os,
+        "CamSau": formData.detail.camara,
+        "CamTruoc": formData.detail.camaraFront,
+        "CPU": formData.detail.cpu,
+        "Ram": formData.detail.ram,
+        "Rom": formData.detail.rom,
+        "SDCard": formData.detail.microUSB,
+        "Pin": formData.detail.battery,
+        "TrangThai": formData.TrangThai
+    };
+    
+    // Send AJAX request to update the product
+    $.ajax({
+        type: "POST",
+        url: "php/xulysanpham.php",
+        dataType: "json",
+        data: {
+            request: "update",
+            masp: masp,
+            dataUpdate: dataUpdate
+        },
+        success: function(data, status, xhr) {
+            Swal.fire({
+                type: 'success',
+                title: 'Cập nhật thành công',
+                text: 'Đã cập nhật sản phẩm ' + formData.name
+            });
+            document.getElementById('khungSuaSanPham').style.transform = 'scale(0)';
+            refreshTableSanPham();
+        },
+        error: function(e) {
+            Swal.fire({
+                type: "error",
+                title: "Lỗi cập nhật",
+                html: e.responseText
+            });
+        }
+    });
 }
 
 function addKhungSuaSanPham(masp) {
@@ -602,8 +720,8 @@ function addKhungSuaSanPham(masp) {
                             <td>Hình:</td>
                             <td>
                                 <img class="hinhDaiDien" id="anhDaiDienSanPhamThem" src="">
-                                <input type="file" name="hinhanh" onchange="capNhatAnhSanPham(this.files, 'anhDaiDienSanPhamThem', '<?php echo $tenfilemoi; ?>')">
-                                <input style="display: none;" type="text" id="hinhanh" value="">
+                                <input type="file" name="hinhanh" onchange="capNhatAnhSanPham(this.files, 'anhDaiDienSanPhamThem', '')">
+                                <input style="display: none;" type="text" id="hinhanh" value="${sp.HinhAnh}">
                             </td>
                         </tr>
             <tr>
@@ -688,10 +806,15 @@ function addKhungSuaSanPham(masp) {
 // Cập nhật ảnh sản phẩm
 function capNhatAnhSanPham(files, id, anh) {
     var url = '';
-    if (files.length) url = window.URL.createObjectURL(files[0]);
+    if (files.length) {
+        url = window.URL.createObjectURL(files[0]);
+        // Store the filename for later use in the database
+        document.getElementById('hinhanh').value = 'img/products/' + files[0].name;
+    } else if (anh) {
+        document.getElementById('hinhanh').value = anh;
+    }
 
-    document.getElementById(id).src = url;
-    document.getElementById('hinhanh').value = anh;
+    document.getElementById(id).src = url || anh;
 }
 
 // Sắp Xếp sản phẩm
@@ -1207,3 +1330,33 @@ function progress(percent, bg, width, height) {
 // }
 
 // console.log(JSON.stringify(list_products));
+
+function uploadProductImage(file, callback) {
+    if (!file) {
+        callback(false, null);
+        return;
+    }
+    
+    var formData = new FormData();
+    formData.append('hinhanh', file);
+    formData.append('request', 'uploadimage');
+    
+    $.ajax({
+        type: "POST",
+        url: "php/uploadfile.php",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            callback(true, 'img/products/' + file.name);
+        },
+        error: function(e) {
+            Swal.fire({
+                type: "error",
+                title: "Lỗi upload ảnh",
+                html: e.responseText
+            });
+            callback(false, null);
+        }
+    });
+}
