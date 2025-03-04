@@ -1,5 +1,5 @@
 var SoLuongTrangHienThi = 4;
-var ProductsPerPage = 4;
+var ProductsPerPage = 10;
 var DanhSachSanPham = [];
 var DataCompany = [];
 var CurrentFilters = [];
@@ -88,7 +88,7 @@ function hienThiKhungSanPhamMacDinh() {
 
     $('.contain-khungSanPham').html('');
 
-    var soLuong = (window.innerWidth < 1200 ? 4 : 5); // màn hình nhỏ thì hiển thị 4 sp, to thì hiển thị 5
+    var soLuong = (window.innerWidth < 1200 ? 8 : 10); // màn hình nhỏ thì hiển thị 8 sp (2 rows of 4), to thì hiển thị 10 (2 rows of 5)
 
     // Các màu
     var yellow_red = ['#ff9c00', '#ec1f1f'];
